@@ -1,0 +1,13 @@
+server:
+  port: ${SERVER_PORT:3000}
+
+spring:
+  application:
+    name: expense-collector
+  datasource:
+    url: jdbc:postgresq://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: ${JPA_DDL_AUTO:update}
