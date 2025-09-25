@@ -1,11 +1,10 @@
 server:
   port: ${SERVER_PORT:5000}
-
 spring:
   application:
     name: expense-collector
   datasource:
-    url: jdbc:postgresq://${DATABASE_HOST:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:expense_collector_dev}
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:expense_collector_dev}
     username: ${DATABASE_USERNAME:postgres}
     password: ${DATABASE_PASSWORD:password}
   jpa:
