@@ -1,5 +1,7 @@
 package com.meggalord.expense_collector.expense;
 
-public class ExpenseRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
 }
