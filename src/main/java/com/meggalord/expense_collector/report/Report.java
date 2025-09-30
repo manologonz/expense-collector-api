@@ -34,12 +34,12 @@ public class Report extends BaseModel {
         this.name = name;
     }
 
-    public LocalDate getDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDate(Integer year, Integer month, Integer day) {
-        this.dueDate = LocalDate.of(year, month, day);
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 
     public List<Expense> getExpenses() {

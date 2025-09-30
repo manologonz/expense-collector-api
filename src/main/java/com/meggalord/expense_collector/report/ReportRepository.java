@@ -1,5 +1,7 @@
 package com.meggalord.expense_collector.report;
 
-public class ReportRepository {
-    
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ReportRepository extends JpaRepository<Report, Long> {
+
 }
