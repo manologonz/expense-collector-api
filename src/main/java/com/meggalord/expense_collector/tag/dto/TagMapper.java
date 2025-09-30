@@ -20,6 +20,8 @@ public class TagMapper {
                 tag.getId(),
                 tag.getName(),
                 tag.getSlug(),
-                tag.getColor());
+                tag.getColor(),
+                tag.getCreatedAt(),
+                tag.getUpdatedAt());
     }
 }

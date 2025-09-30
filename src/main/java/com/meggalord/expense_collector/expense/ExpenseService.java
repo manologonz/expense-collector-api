@@ -1,6 +1,11 @@
 package com.meggalord.expense_collector.expense;
 
 import com.meggalord.expense_collector.tag.TagService;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.meggalord.expense_collector.expense.dto.ExpenseTagUpdateDTO;
@@ -22,8 +27,10 @@ public class ExpenseService {
         this.tagService = tagService;
     }
 
-    public List<Expense> getExpenses() {
-        return expenseRepository.findAll();
+    public Page<Expense> getExpenses(int page, int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by("date"));
+
+        return expenseRepository.findAll(pageable);
     }
 
     public Expense createExpense(Expense expense) {

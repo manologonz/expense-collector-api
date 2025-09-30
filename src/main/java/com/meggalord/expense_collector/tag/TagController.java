@@ -7,10 +7,12 @@ import com.meggalord.expense_collector.tag.dto.TagCreateDTO;
 import com.meggalord.expense_collector.tag.dto.TagMapper;
 import com.meggalord.expense_collector.tag.dto.TagResponseDTO;
 import com.meggalord.expense_collector.tag.dto.TagUpdateDTO;
+import com.meggalord.expense_collector.utils.pagination.PaginatedResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,13 +34,14 @@ public class TagController {
     }
 
     @GetMapping()
-    public List<TagResponseDTO> getTags(
-            @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
-            @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit) {
+    public PaginatedResponse<TagResponseDTO> getTags(
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "limit", required = false, defaultValue = "10") int limit) {
 
-        List<Tag> tagList = tagService.getTags();
+        Page<Tag> tagPage = tagService.getTags(page, limit);
+        List<TagResponseDTO> data = tagPage.getContent().stream().map(tagMapper::toDTO).collect(Collectors.toList());
 
-        return tagList.stream().map(tagMapper::toDTO).collect(Collectors.toList());
+        return PaginatedResponse.of(data, page, limit, tagPage.getTotalPages());
     }
 
     @PostMapping()

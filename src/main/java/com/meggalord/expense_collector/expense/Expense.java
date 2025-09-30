@@ -8,6 +8,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.meggalord.expense_collector.report.Report;
@@ -20,6 +21,7 @@ public class Expense extends BaseModel {
 
     private String description;
     private Float amount;
+    private LocalDate date;
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
     @JoinTable(name = "jn_expenses_tags", joinColumns = @JoinColumn(name = "expense_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
@@ -44,6 +46,14 @@ public class Expense extends BaseModel {
         this.amount = amount;
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
     public List<Tag> getTags() {
         return tags;
     }
@@ -58,6 +68,10 @@ public class Expense extends BaseModel {
 
     public void setReports(List<Report> reports) {
         this.reports = reports;
+    }
+
+    public void setDate(Integer year, Integer month, Integer day) {
+
     }
 
 }

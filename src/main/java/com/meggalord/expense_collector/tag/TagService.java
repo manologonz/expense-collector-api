@@ -1,5 +1,9 @@
 package com.meggalord.expense_collector.tag;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.meggalord.expense_collector.tag.dto.TagCreateDTO;
@@ -19,8 +23,9 @@ public class TagService {
         this.tagMapper = tagMapper;
     }
 
-    public List<Tag> getTags() {
-        return tagRepository.findAll();
+    public Page<Tag> getTags(int page, int limit) {
+        Pageable pagedTag = PageRequest.of(page - 1, limit, Sort.by("createdAt"));
+        return tagRepository.findAll(pagedTag);
     }
 
     public Tag findTagById(Long tagId) {

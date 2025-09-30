@@ -5,14 +5,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.meggalord.expense_collector.expense.dto.ExpenseCreateDTO;
 import com.meggalord.expense_collector.expense.dto.ExpenseMapper;
 import com.meggalord.expense_collector.expense.dto.ExpenseResponseDTO;
+import com.meggalord.expense_collector.expense.dto.ExpenseSoloResponeseDTO;
 import com.meggalord.expense_collector.expense.dto.ExpenseTagUpdateDTO;
 import com.meggalord.expense_collector.expense.dto.ExpenseUpdateDTO;
+import com.meggalord.expense_collector.utils.pagination.PaginatedResponse;
 
 import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,12 +38,17 @@ public class ExpenseController {
     }
 
     @GetMapping()
-    public List<ExpenseResponseDTO> getExpenses(
-            @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
-            @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit) {
+    public PaginatedResponse<ExpenseResponseDTO> getExpenses(
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "limit", required = false, defaultValue = "10") int limit) {
 
-        return expenseService.getExpenses().stream().map(expenseMapper::toDTO).collect(Collectors.toList());
-    }
+        Page<Expense> expensePage = expenseService.getExpenses(page, limit);
+
+        List<ExpenseResponseDTO> data = expensePage.getContent().stream().map(expenseMapper::toDTO)
+                .collect(Collectors.toList());
+
+        return PaginatedResponse.of(data, page, limit, expensePage.getTotalPages());
+    };
 
     @PostMapping()
     public ExpenseResponseDTO createExpense(@Valid @RequestBody ExpenseCreateDTO entity) {
@@ -68,10 +76,10 @@ public class ExpenseController {
     }
 
     @DeleteMapping("/{expenseId}")
-    public ExpenseResponseDTO deleteExpense(@PathVariable(value = "expenseId", required = true) Long expenseId) {
+    public ExpenseSoloResponeseDTO deleteExpense(@PathVariable(value = "expenseId", required = true) Long expenseId) {
         Expense deletedExpense = expenseService.deleteExpense(expenseId);
 
-        return expenseMapper.toDTO(deletedExpense);
+        return expenseMapper.toSoloDto(deletedExpense);
     }
 
     @PostMapping("/{expenseId}/tags")

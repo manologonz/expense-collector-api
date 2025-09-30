@@ -37,7 +37,8 @@ public class ExpenseMapper {
 
         if (expense.getTags() != null && !expense.getTags().isEmpty()) {
             tagList = expense.getTags().stream()
-                    .map(tag -> new TagResponseDTO(tag.getId(), tag.getName(), tag.getSlug(), tag.getColor()))
+                    .map(tag -> new TagResponseDTO(tag.getId(), tag.getName(), tag.getSlug(), tag.getColor(),
+                            tag.getCreatedAt(), tag.getUpdatedAt()))
                     .collect(Collectors.toList());
         }
 
@@ -45,6 +46,15 @@ public class ExpenseMapper {
                 expense.getId(),
                 expense.getDescription(),
                 expense.getAmount(),
-                tagList);
+                tagList,
+                expense.getCreatedAt(),
+                expense.getUpdatedAt());
+    }
+
+    public ExpenseSoloResponeseDTO toSoloDto(Expense expense) {
+        return new ExpenseSoloResponeseDTO(
+                expense.getId(),
+                expense.getDescription(),
+                expense.getAmount());
     }
 }
