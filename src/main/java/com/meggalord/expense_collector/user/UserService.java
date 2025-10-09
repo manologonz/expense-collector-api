@@ -18,4 +18,8 @@ public class UserService {
         List<User> result = userRepository.findByUsername(username);
         return result.getFirst();
     }
+
+    public User createUser() {
+
+    }
 }

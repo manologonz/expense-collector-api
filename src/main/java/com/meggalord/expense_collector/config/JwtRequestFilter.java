@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.meggalord.expense_collector.user.UserService;
-import com.meggalord.expense_collector.utils.authentication.JWTUtil;
+import com.meggalord.expense_collector.utils.authentication.JwtUtil;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,9 +23,9 @@ import jakarta.servlet.ServletException;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final UserService userService;
-    private final JWTUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
-    public JwtRequestFilter(UserService userService, JWTUtil jwtUtil) {
+    public JwtRequestFilter(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
     }
